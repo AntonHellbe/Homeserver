@@ -1,0 +1,55 @@
+{% extends "header.html" %}
+
+{% block body %}
+<div class = "container">
+
+	<ul class ="nav nav-tabs">
+
+		<li role="presentation" class="active"><a href="#123" data-toggle="tab">Home</a></li>
+		<li role="presentation"><a href="#234" data-toggle="tab">List of Projects</a></li>
+		<li role="presentation"><a href="#345" data-toggle="tab">Details</a></li>
+		<li role ="presentation" class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+		Dropdown <span class="caret"></span></a>
+		<ul class="dropdown-menu">
+			<li>Something1 </li>
+			<li>Something2 </li>
+			<li>Something3 </li>
+		</ul>
+		</li>
+</ul>
+
+
+
+
+
+<div class="tab-content" id="tabs">
+	<div class="tab-pane" id="#123"> Content1 </div>
+	<div class="tab-pane" id="#234"> Content2 </div>
+	<div class="tab-pane" id="#345"> Content3 </div>
+
+</div>
+
+	<div class="row">
+
+		<div class="col-md-6">
+
+
+
+		</div>
+
+
+		<div class="col-md-6">
+
+
+		</div>
+
+
+
+
+	</div>
+
+</div>
+
+
+{% endblock %}
