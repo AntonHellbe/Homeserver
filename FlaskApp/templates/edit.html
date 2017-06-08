@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block body %}
+
+	<h4>{{ user.username }}</h4>
+	<form method=post action="/edit/">
+		{{ form.hidden_tag() }}
+		<dl>
+			{{wtf.form_field(form.username)}}
+			{{wtf.form_field(form.email)}}
+			{{wtf.form_field(form.password)}}
+			{{wtf.form_field(form.confirm)}}
+		</dl>
+		<p><input class = "btn btn-primary" input type=submit value=Update></p>
+	</form>
+
+
+
+{% endblock %}

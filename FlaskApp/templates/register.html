@@ -1,4 +1,4 @@
-{% extends "header.html" %}
+{% extends "base.html" %}
 
 {% import "bootstrap/wtf.html" as wtf %}
 
@@ -12,13 +12,20 @@
 
 		<form method=post action="/register/">
 			<dl>
-				{{wtf.form_field(form.username)}}
-				{{wtf.form_field(form.email)}}
-				{{wtf.form_field(form.password)}}
-				{{wtf.form_field(form.confirm)}}
-				{{wtf.form_field(form.accept_tos)}}
+				<!--{{ form.csrf_token }}
+			    {{ form.username.label }} {{ form.username(size=20) }}
+				{{ form.email.label }} {{ form.email(size=40) }}
+				{{ form.password.label }} {{ form.password(size=40) }}
+				{{ form.confirm.label }} {{ form.confirm(size=40) }}
+				{{ form.accept_tos.label }} {{ form.accept_tos(size=260) }} -->
+				{{ form.hidden_tag() }}
+				{{ wtf.form_field(form.username) }}
+				{{ wtf.form_field(form.email) }}
+				{{ wtf.form_field(form.password) }}
+				{{ wtf.form_field(form.confirm) }}
+				{{ wtf.form_field(form.accept_tos) }}
 			</dl>
-			<p><input class = "btn btn-primary" input type=submit value=Register></p>
+			<p><input class = "btn btn-primary" input type="submit" value=Register></p>
 		</form>
 
 		{% if error %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+	<form>
+		<fieldset disabled>
+			<div class="form-group">
+				<label for="disabledUsername"> Username </label>
+				<input type="text" id="disabledUsername" class="form-control" placeholder="{{ user.username }}">
+			</div>
+			<div class="form-group">
+				<label for="disabledEmail"> Email </label>
+				<input type="text" id="disabledEmail" class="form-control" placeholder="{{ user.email }}">
+			</div>
+			<div class="form-group">
+				<label for="disabledPassword"> Password </label>
+				<input type="text" id="disabledPassword" class="form-control" placeholder = "&#9679;&#9679;&#9679;&#9679;&#9679;" >
+			</div>
+		</fieldset>
+		{% if g.user.id == user.id %}
+			<a href="/edit" class="btn btn-primary" input type="submit"> Edit Profile </a>
+		{% endif %}
+	</form>
+
+
+
+
+
+
+
+{% endblock %}

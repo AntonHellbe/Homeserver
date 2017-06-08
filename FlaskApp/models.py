@@ -2,20 +2,19 @@ from . import db
 from passlib.hash import sha256_crypt
 
 
-class Role(db.Model):
-    __tablename__= 'roles'
-    users = db.relationship('User', backref='role')
-    name = db.Column(db.String(64), unique = True)
-    id = db.Column(db.Integer, primary_key= True)
+# class Role(db.Model):
+#     __tablename__= 'roles'
+#     users = db.relationship('User', backref='role')
+#     name = db.Column(db.String(64), unique = True)
+#     id = db.Column(db.Integer, primary_key= True)
 
 
 class User(db.Model):
-    __tablename__= 'users'
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(20), unique = True)
     password = db.Column(db.String(500))
     email = db.Column(db.String(50), unique = True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    #role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     @property
     def is_active(self):
