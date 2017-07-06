@@ -14,6 +14,7 @@
 			{{wtf.form_field(form.confirm)}}
 		</dl>
 		<p><input class = "btn btn-primary" input type=submit value=Update></p>
+		<p><a class="btn btn-danger" href="{{ url_for('main.user', username = g.user.username) }}">Cancel </a></p>
 	</form>
 
 

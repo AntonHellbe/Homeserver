@@ -1,23 +1,34 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-
+from config import config
 
 
 app = Flask(__name__)
-app.config.from_envvar('FLASK_CONFIG')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////sqlite/testing.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['WTF_CSRF_ENABLED'] = True
-app.config['WTF_CSRF_SECRET_KEY'] = 'super-mega-secretkey123456789'
-app.config['SECRET_KEY'] = 'abc123456789fghjklmnopqwet1231543rmkadmsa'
-app.config['SECURITY_REGISTERABLE'] = True
+#app.config.from_envvar('FLASK_CONFIG')
 lm = LoginManager()
-# app.config.from_object('config')
-db = SQLAlchemy(app)
-lm.init_app(app)
+# db = SQLAlchemy(app)
+# lm.init_app(app)
 lm.login_view = 'login_page'
-Bootstrap(app)
+# Bootstrap(app)
+bootstrap = Bootstrap()
+db = SQLAlchemy()
 
-from FlaskApp import views, models
+main = Blueprint('main', __name__)
+from . import views, errors
+
+
+def create_app(config_name):
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
+    bootstrap.init_app(app)
+    db.init_app(app)
+    lm.init_app(app)
+
+    from . import main as main_blueprint
+
+    app.register_blueprint(main_blueprint)
+
+    return app

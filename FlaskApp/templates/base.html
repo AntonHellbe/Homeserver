@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -15,35 +16,31 @@
 
 
 </head>
-<header>
 
-
-<nav class="navbar navbar-inverse">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-header">
-				<a class="navbar-brand" href="/"> Anton Hellbe </a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li class="active"> <a href="/">Hem</a></li>
-			<li class="active"> <a href="/">Projekt</a></li>
-			<li class="active"> <a href="/">Övrigt</a></li>
-		</ul>
-		<ul class="nav navbar-nav navbar-right">
-				{% if g.user.is_authenticated  %}
-				<li> <a href="{{ url_for('user', username = g.user.username) }}"><span class ="glyphicon glyphicon-user"></span> {{ g.user.username }} </a></li>
-				<li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-				{% else %}
-				<li><a href="/register/"><span class="glyphicon glyphicon-user"> </span> Sign Up </a></li>
-				<li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
-				{% endif %}
-		</ul>
-	</nav>
-</div>
-
-
-</header>
 <body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-header">
+					<a class="navbar-brand" href="/"> Anton Hellbe </a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"> <a href="/">Hem</a></li>
+				<li class="active"> <a href="/">Projekt</a></li>
+				<li class="active"> <a href="/">Övrigt</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+					{% if g.user.is_authenticated  %}
+					<li> <a href="{{ url_for('main.user', username = g.user.username) }}"><span class ="glyphicon glyphicon-user"></span> {{ g.user.username }} </a></li>
+					<li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					{% else %}
+					<li><a href="/register/"><span class="glyphicon glyphicon-user"> </span> Sign Up </a></li>
+					<li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
+					{% endif %}
+			</ul>
+		</nav>
+	</div>
 
 <div class="border-row" style="width:100%; margin-bottom: 15px;"></div>
 
@@ -103,6 +100,57 @@
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+<script>
+	// $(function() {
+	// 	$('.container .nav.nav-tabs li').on('click', function() {
+	// 		$('.container .nav.nav-tabs li.active').removeClass('active');
+	// 		var panelToShow = $(this).attr('name');
+	// 		$(this).addClass('active')
+	//
+	// 		$('.tab-content .tab-pane.active').slideUp(300, showNextPanel);
+	//
+	// 		function showNextPanel() {
+	// 			$(this).removeClass('active');
+	//
+	// 			$('#' + panelToShow).slideDown(300, function() {
+	// 				$(this).addClass('active');
+	// 			});
+	// 		}
+	//
+
+		// $('.tab-content')
+		// 	console.log(panelToShow);
+		//
+		// 	//$('.container .nav nav-tabs li')
+	// 	});
+	// });
+
+	$(function() {
+		$('.container .nav.nav-tabs li').on('click', function() {
+			var $panel = $(this).closest('.container');
+			$panel.find('li.active').removeClass('active');
+			$(this).addClass('active');
+			var panelToShow = $(this).attr('name');
+
+			$panel.find('.tab-pane.active').slideUp(300, showNextPanel);
+
+			function showNextPanel() {
+				$(this).removeClass('active');
+
+				$('#' + panelToShow).slideDown(300, function() {
+					$(this).addClass('active');
+				});
+			}
+
+
+		// $('.tab-content')
+		// 	console.log(panelToShow);
+		//
+		// 	//$('.container .nav nav-tabs li')
+		});
+	});
+</script>
 
 </body>
 

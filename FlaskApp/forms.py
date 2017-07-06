@@ -19,7 +19,7 @@ class RegistrationForm(FlaskForm):
 class EditForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=4, max=20)])
     email = StringField('Email Address', [validators.Length(min=6, max=50)])
-    password = PasswordField('Password', [validators.EqualTo('confirm', message="Passwords must match")])
+    password = PasswordField('Password', [validators.EqualTo('confirm', message="Passwords must match"), validators.required()])
     confirm = PasswordField('Repeat Password')
 
     def __init__(self, original_username, original_email, *args, **kwargs):

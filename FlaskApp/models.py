@@ -8,8 +8,17 @@ from passlib.hash import sha256_crypt
 #     name = db.Column(db.String(64), unique = True)
 #     id = db.Column(db.Integer, primary_key= True)
 
+class Project(db.Model):
+    __tablename__='projects'
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(50), unique = True)
+    tags = db.Column(db.String(64))
+    description = db.Column(db.String(600))
+
+
 
 class User(db.Model):
+    __tablename__= 'users'
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(20), unique = True)
     password = db.Column(db.String(500))
@@ -19,6 +28,10 @@ class User(db.Model):
     @property
     def is_active(self):
         return True
+
+    #@property
+    #def password(self):
+    #    raise AttributeError('Password is not a readable attritbute')
 
     def get_id(self):
         try:
