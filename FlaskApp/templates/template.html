@@ -1,20 +1,17 @@
 {% extends "bootstrap/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<body>
 {% block head %}
 	{{ super() }}
 	<meta charset="utf-8">
 	<title> Arduino Projects example webpage </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!--<link href="{{ url_for('static', filename='css/customstyles.css') }}" rel="stylesheet">-->
+	<link href="{{ url_for('static', filename='css/customstyles.css') }}" rel="stylesheet">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 {% endblock %}
 
-
+<body>
 
 {% block navbar %}
 
@@ -41,33 +38,62 @@
 	</nav>
 </div>
 
-
-
-<div class="border-row" style="width:100%; margin-bottom: 15px;"></div>
-<div class="container">
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-warning alert-dismissible" role="alert">
-    {{message}}
-    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-    </div>
-</div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
-
 {% endblock %}
 
+
+
+{% block content %}
+
+{% block jumbotron %}{% endblock %}
+
+<div class ="border-row" style="width: 100%; margin-bottom: 15px;"> </div>
+
 <div class="container">
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	    {% for message in messages %}
+	    <div class="alert alert-warning alert-dismissible" role="alert">
+	    	{{message}}
+	    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    </div>
+	    {% endfor %}
+	  {% endif %}
+	{% endwith %}
+</div>
+
+
+
+<div class="container" style="min-height: 100%;" id="content">
 	{% block page_content %}{% endblock %}
 </div>
 
-
-<footer>
-	{% block footer %}{% endblock %}
+{% block footer %}
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<ul class="list-unstyled">
+					<li><a class="black-text" href="#"> Anton Hellbe</a></li>
+					<li><a class="black-text" href="#"> Krutmeijersgatan 16A </a></li>
+					<li><a class="black-text" href="#"> Malmö, 21741 </a></li>
+				</ul>
+			</div>
+			<div class="col-md-6 col-sm-12 col-xs-12">
+				<ul class="list-unstyled">
+				<li><a class="black-text" href="https://www.facebook.com/HEJHEJHEJHEJ"> Facebook </a></li>
+				<li><a class="black-text" href="#"> Twitter </a></li>
+				<li><a class="black-text" href="#"> Google </a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </footer>
+
+
+{% endblock %}
+
+{% endblock %}
+
 
 
 
@@ -97,7 +123,4 @@
 </script>
 {% endblock %}
 
-
-
 </body>
-</html>

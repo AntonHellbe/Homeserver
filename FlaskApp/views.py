@@ -10,16 +10,16 @@ from datetime import datetime
 
 # @main.before_app_first_request
 # def create_db():
-    # db.create_all()
-    #project1 = Project(name = "Casus", tags = "Matlab, Arduino, ESP8266", description = "Project built with Axis Camera and ESP8266", date = datetime.utcnow(), user_id = 1)
-    # project2 = Project(name = "Casus1", tags = "Matlab, Arduino, ESP8266, adsadada", description = "Project built with Axis Camera and ESP8266 daldadadadasd", date = datetime.utcnow(), user_id = 1)
-    # project3 = Project(name = "Casus2", tags = "Matlab, Arduino, ESP8266, abc123", description = "Project built with Axis Camera and ESP8266 aehadsadagsda", date = datetime.utcnow(), user_id = 1)
-    # user1 = User(username = "AntonHellbe", email = "antonhellbe@gmail.com")
-    # user1.set_password("Fabrik22")
-    # db.session.add(user1)
-    # db.session.add(project2)
-    # db.session.add(project3)
-    # db.session.commit()
+#     db.create_all()
+#     project1 = Project(name = "Casus", tags = "Matlab, Arduino, ESP8266", description = "Project built with Axis Camera and ESP8266", date = datetime.utcnow(), user_id = 1)
+#     project2 = Project(name = "Casus1", tags = "Matlab, Arduino, ESP8266, adsadada", description = "Project built with Axis Camera and ESP8266 daldadadadasd", date = datetime.utcnow(), user_id = 1)
+#     project3 = Project(name = "Casus2", tags = "Matlab, Arduino, ESP8266, abc123", description = "Project built with Axis Camera and ESP8266 aehadsadagsda", date = datetime.utcnow(), user_id = 1)
+#     user1 = User(username = "AntonHellbe", email = "antonhellbe@gmail.com")
+#     user1.set_password("Fabrik22")
+#     db.session.add(user1)
+#     db.session.add(project2)
+#     db.session.add(project3)
+#     db.session.commit()
 
 
 @main.context_processor
