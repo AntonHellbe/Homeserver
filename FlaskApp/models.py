@@ -14,7 +14,8 @@ class Project(db.Model):
     name = db.Column(db.String(50), unique = True)
     tags = db.Column(db.String(64))
     description = db.Column(db.String(600))
-
+    date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
 class User(db.Model):
@@ -23,14 +24,18 @@ class User(db.Model):
     username = db.Column(db.String(20), unique = True)
     password = db.Column(db.String(500))
     email = db.Column(db.String(50), unique = True)
-    #role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    projects = db.relationship('Project', backref='author', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Project %r>' % self.name
+
 
     @property
     def is_active(self):
         return True
 
-    #@property
-    #def password(self):
+    # @property
+    # def password(self):
     #    raise AttributeError('Password is not a readable attritbute')
 
     def get_id(self):
@@ -51,7 +56,7 @@ class User(db.Model):
     	return sha256_crypt.verify(input_password, self.password)
 
     def set_password(self, input_password):
-    	self.password = sha256_crypt.encrypt((str(input_password)))
+    	self.password = sha256_crypt.encrypt((input_password))
 
     def __repr__(self):
         return '<User %r>' % (self.username)

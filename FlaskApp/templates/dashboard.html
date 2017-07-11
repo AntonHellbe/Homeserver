@@ -1,14 +1,14 @@
-{% extends "base.html" %}
+{% extends "template.html" %}
 
-{% block body %}
-<div class = "container">
+{% block page_content %}
+
 	<ul class ="nav nav-tabs">
 		<!-- <a href="#234" data-toggle="tab"> -->
 		<li role="presentation" class="active" name="panel1" data-toggle="tab"><a href="#">Home</a></li>
 		<li role="presentation" name="panel2" data-toggle="tab"><a href="#">List of Projects</a></li>
 		<li role="presentation" name="panel3" data-toggle="tab"><a href="#">Details</a></li>
 		<li role ="presentation" class="dropdown">
-		<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 		Dropdown <span class="caret"></span></a>
 		<ul class="dropdown-menu">
 			<li>Something1 </li>
@@ -31,14 +31,18 @@
 				<th>Name</th>
 				<th>Tags</th>
 				<th>Submitted</th>
+				<th>Author</th>
 			</thead>
 		<tbody>
+			{% for project in projects %}
 			<tr class>
-				<td>{{ project.id }}</td>
+				<td><a href= "{{ url_for('main.project', id = project.id) }}">{{ project.id }}</a></td>
 				<td>{{ project.name }}</td>
 				<td>{{ project.tags }}</td>
-				<td><p> coming soon </p></td>
+				<td><p> {{ moment(project.date).format('LL') }} </p></td>
+				<td>{{ project.author.username }}</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 		</table>
 
@@ -61,8 +65,7 @@
 
 	</div>
 
-</div>
-
-
 
 {% endblock %}
+
+{% block footer %}<p><strong>Hello this is a footer</strong></p>{% endblock %}

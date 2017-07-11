@@ -3,15 +3,12 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
+from flask_moment import Moment
 
 
 app = Flask(__name__)
-#app.config.from_envvar('FLASK_CONFIG')
 lm = LoginManager()
-# db = SQLAlchemy(app)
-# lm.init_app(app)
-lm.login_view = 'login_page'
-# Bootstrap(app)
+moment = Moment()
 bootstrap = Bootstrap()
 db = SQLAlchemy()
 
@@ -26,6 +23,8 @@ def create_app(config_name):
     bootstrap.init_app(app)
     db.init_app(app)
     lm.init_app(app)
+    moment.init_app(app)
+    lm.login_view = 'main.login_page'
 
     from . import main as main_blueprint
 

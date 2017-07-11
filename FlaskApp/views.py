@@ -4,16 +4,27 @@ from flask_login import login_user, logout_user, current_user, login_required
 from .models import User, Project
 from .forms import LoginForm, RegistrationForm, EditForm
 from . import main
+from datetime import datetime
 
 
 
 # @main.before_app_first_request
 # def create_db():
-#     db.create_all()
-#     project1 = Project(name = "Casus", tags = "Matlab, Arduino, ESP8266", description = "Project built with Axis Camera and ESP8266")
-#     db.session.add(project1)
-#     db.session.commit()
+    # db.create_all()
+    #project1 = Project(name = "Casus", tags = "Matlab, Arduino, ESP8266", description = "Project built with Axis Camera and ESP8266", date = datetime.utcnow(), user_id = 1)
+    # project2 = Project(name = "Casus1", tags = "Matlab, Arduino, ESP8266, adsadada", description = "Project built with Axis Camera and ESP8266 daldadadadasd", date = datetime.utcnow(), user_id = 1)
+    # project3 = Project(name = "Casus2", tags = "Matlab, Arduino, ESP8266, abc123", description = "Project built with Axis Camera and ESP8266 aehadsadagsda", date = datetime.utcnow(), user_id = 1)
+    # user1 = User(username = "AntonHellbe", email = "antonhellbe@gmail.com")
+    # user1.set_password("Fabrik22")
+    # db.session.add(user1)
+    # db.session.add(project2)
+    # db.session.add(project3)
+    # db.session.commit()
 
+
+@main.context_processor
+def inject_moment():
+    return {'now': datetime.utcnow()}
 
 @lm.user_loader
 def user_loader(id):
@@ -35,12 +46,9 @@ def page_not_found(e):
 
 @main.route('/dashboard/')
 def dashboard():
-    project = Project.query.filter_by(name = "Casus").first()
-    return render_template("dashboard.html", project = project)
-#    if g.user is not None:
+    projects = Project.query.all()
+    return render_template("dashboard.html", projects = projects)
 
-#    else:
-#        return render_template("dashboard.html")
 
 @main.route('/login/', methods= ["GET", "POST"])
 def login_page():
@@ -48,10 +56,8 @@ def login_page():
     form = LoginForm()
     try:
         if form.validate_on_submit():
-            print('Step 1')
             user = User.query.filter_by(username = form.username.data).first()
             if user:
-                print('Step 2')
                 if user.authentication(str(form.password.data)):
                     login_user(user)
                     flash("You are now logged in")
@@ -82,10 +88,17 @@ def register_page():
             new_user.set_password(str(form.password.data))
             db.session.add(new_user)
             db.session.commit()
+            login_user(new_user)
             flash('Registration succesful, you are now logged in')
             return redirect(url_for('main.dashboard'))
 
     return render_template('register.html', form = form)
+
+@main.route('/dashboard/project/<id>')
+@login_required
+def project(id):
+    project = Project.query.get(id)
+    return render_template('project.html', project = project)
 
 @main.route('/user/<username>')
 @login_required
@@ -122,4 +135,5 @@ def edit():
 @main.route('/logout/')
 def logout_page():
     logout_user()
+    flash('You are now logged out')
     return redirect(url_for('main.homepage'))
