@@ -2,39 +2,25 @@
 
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block content %}
+{% block page_content %}
+<div class="col-md-8 col-md-offset-2" id="medContent">
+	<h4>Register</h4>
+	<br>
+	<form method=post action="/register/">
+	<dl>
+		{{ form.hidden_tag() }}
+		{{ wtf.form_field(form.username) }}
+		{{ wtf.form_field(form.email) }}
+		{{ wtf.form_field(form.password) }}
+		{{ wtf.form_field(form.confirm) }}
+		{{ wtf.form_field(form.accept_tos) }}
+	</dl>
+	<p><input class = "btn btn-primary" input type="submit" value=Register></p>
+	</form>
 
-<body>
-
-	<div class="container">
-		<h4>Register</h4>
-		<br>
-
-		<form method=post action="/register/">
-			<dl>
-				<!--{{ form.csrf_token }}
-			    {{ form.username.label }} {{ form.username(size=20) }}
-				{{ form.email.label }} {{ form.email(size=40) }}
-				{{ form.password.label }} {{ form.password(size=40) }}
-				{{ form.confirm.label }} {{ form.confirm(size=40) }}
-				{{ form.accept_tos.label }} {{ form.accept_tos(size=260) }} -->
-				{{ form.hidden_tag() }}
-				{{ wtf.form_field(form.username) }}
-				{{ wtf.form_field(form.email) }}
-				{{ wtf.form_field(form.password) }}
-				{{ wtf.form_field(form.confirm) }}
-				{{ wtf.form_field(form.accept_tos) }}
-			</dl>
-			<p><input class = "btn btn-primary" input type="submit" value=Register></p>
-		</form>
-
-		{% if error %}
-			<p><strong> Error: </strong> {{ error }}</p>
-		{% endif %}
-	</div>
-
-
-</body>
-
+	{% if error %}
+		<p><strong> Error: </strong> {{ error }}</p>
+	{% endif %}
+</div>
 
 {% endblock %}

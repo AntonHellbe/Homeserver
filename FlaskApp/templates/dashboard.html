@@ -1,20 +1,17 @@
 {% extends "template.html" %}
 
 {% block page_content %}
-
+<div class="col-md-8 col-md-offset-2" id="medContent">
 	<ul class ="nav nav-tabs">
-		<!-- <a href="#234" data-toggle="tab"> -->
-		<li role="presentation" class="active" name="panel1" data-toggle="tab"><a href="#">Home</a></li>
-		<li role="presentation" name="panel2" data-toggle="tab"><a href="#">List of Projects</a></li>
+		<li role="presentation" name="panel1" data-toggle="tab"><a href="#">Information</a></li>
+		<li role="presentation" class="active" name="panel2" data-toggle="tab"><a href="#">List of Projects</a></li>
 		<li role="presentation" name="panel3" data-toggle="tab"><a href="#">Details</a></li>
-		<li role ="presentation" class="dropdown">
-		<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-		Dropdown <span class="caret"></span></a>
-		<ul class="dropdown-menu">
-			<li>Something1 </li>
-			<li>Something2 </li>
-			<li>Something3 </li>
-		</ul>
+		<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filters<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><label><input type="checkbox" value="" />Option 1</label></li>
+				<li><label><input type="checkbox" value="" />Option 2</label></li>
+				<li><label><input type="checkbox" value="" />Option 3</label></li>
+			</ul>
 		</li>
 </ul>
 
@@ -22,11 +19,24 @@
 
 
 <div class="tab-content" id="tabs">
-	<div class="tab-pane active" id="panel1" name="1"> <p><strong> HEJ! </p></strong></div>
-	<div class="tab-pane" id="panel2" name="2">
+	<div class="tab-pane" id="panel1" name="1">
+	<h3>About the projects</h3>
+	<p>
+		All the projects are listed under the "List of Projects"-tab. Most of the projects are from different assignments for MAH University.
+		Mandatory to submit a project is a description, tags and a link to the github project. Without this you wont be able to submit a project.
+		The reason is without this the project will be lacking too information for someone else to grasp what they project / assignment is about.
+	</p>
+	<h3>How do I contribute?</h3>
+	<p>
+		In order to submit a new project all you need is an account. In the top left corner press "Sign up" and create an account. After that
+		a "Create new project" button will appear under List of Projects
+	</p>
+
+	</div>
+	<div class="tab-pane active" id="panel2" name="2">
 		<table class = "table table-hover">
 			<thead>
-				<th>#</th>
+				<th>Id</th>
 				<th>Name</th>
 				<th>Tags</th>
 				<th>Submitted</th>
@@ -35,15 +45,16 @@
 		<tbody>
 			{% for project in projects %}
 			<tr class>
-				<td><a href= "{{ url_for('main.project', id = project.id) }}">{{ project.id }}</a></td>
-				<td>{{ project.name }}</td>
-				<td>{{ project.tags }}</td>
-				<td><p> {{ moment(project.date).format('LL') }} </p></td>
+				<td class="col-md-2"><a href= "{{ url_for('main.project', id = project.id) }}">{{ project.id }}</a></td>
+				<td class="col-md-2">{{ project.name }}</td>
+				<td class="col-md-6">{{ project.tags }}</td>
+				<td class="col-md-2"><p> {{ moment(project.date).format('LL') }} </p></td>
 				<td>{{ project.author.username }}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 		</table>
+		<a class="btn btn-primary" href="{{ url_for('main.new_project') }}">Submit new project</a>
 
 	</div>
 	<div class="tab-pane" id="panel3" name="3"> Content3 </div>
@@ -63,6 +74,5 @@
 		</div>
 
 	</div>
-
-
+</div>
 {% endblock %}

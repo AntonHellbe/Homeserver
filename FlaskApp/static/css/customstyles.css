@@ -27,6 +27,12 @@ body {
     margin-bottom:60px;
 }
 
+.panel-body{
+  word-wrap:break-word;
+}
+
+
+
 /*#footer {
   position: absolute;
   bottom: 0;

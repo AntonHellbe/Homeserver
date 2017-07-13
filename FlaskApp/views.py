@@ -2,24 +2,11 @@ from . import app, db, lm
 from flask import render_template, redirect, flash, url_for, request, g, session
 from flask_login import login_user, logout_user, current_user, login_required
 from .models import User, Project
-from .forms import LoginForm, RegistrationForm, EditForm
+from .forms import LoginForm, RegistrationForm, EditForm, ProjectForm
 from . import main
 from datetime import datetime
+from sqlalchemy import desc
 
-
-
-# @main.before_app_first_request
-# def create_db():
-#     db.create_all()
-#     project1 = Project(name = "Casus", tags = "Matlab, Arduino, ESP8266", description = "Project built with Axis Camera and ESP8266", date = datetime.utcnow(), user_id = 1)
-#     project2 = Project(name = "Casus1", tags = "Matlab, Arduino, ESP8266, adsadada", description = "Project built with Axis Camera and ESP8266 daldadadadasd", date = datetime.utcnow(), user_id = 1)
-#     project3 = Project(name = "Casus2", tags = "Matlab, Arduino, ESP8266, abc123", description = "Project built with Axis Camera and ESP8266 aehadsadagsda", date = datetime.utcnow(), user_id = 1)
-#     user1 = User(username = "AntonHellbe", email = "antonhellbe@gmail.com")
-#     user1.set_password("Fabrik22")
-#     db.session.add(user1)
-#     db.session.add(project2)
-#     db.session.add(project3)
-#     db.session.commit()
 
 
 @main.context_processor
@@ -30,9 +17,9 @@ def inject_moment():
 def user_loader(id):
     return User.query.get(int(id))
 
-@main.before_app_request
-def before_request():
-    g.user = current_user
+# @main.before_app_request
+# def before_request():
+#     g.user = current_user
 
 @main.route('/')
 @main.route('/homepage/')
@@ -46,7 +33,7 @@ def page_not_found(e):
 
 @main.route('/dashboard/')
 def dashboard():
-    projects = Project.query.all()
+    projects = Project.query.order_by(desc(Project.date))
     return render_template("dashboard.html", projects = projects)
 
 
@@ -60,6 +47,7 @@ def login_page():
             if user:
                 if user.authentication(str(form.password.data)):
                     login_user(user)
+                    user.ping()
                     flash("You are now logged in")
                     return redirect(request.args.get('next') or url_for('main.dashboard'))
                 else:
@@ -86,6 +74,7 @@ def register_page():
         else:
             new_user = User(username = form.username.data, email = form.email.data)
             new_user.set_password(str(form.password.data))
+            new_user.ping()
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
@@ -93,6 +82,20 @@ def register_page():
             return redirect(url_for('main.dashboard'))
 
     return render_template('register.html', form = form)
+
+@main.route('/dashboard/newproject', methods=['GET', 'POST'])
+@login_required
+def new_project():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        project = Project(name = form.name.data, tags = form.tags.data,
+                          description = form.description.data, links = form.links.data, user_id = current_user.id, date = datetime.utcnow())
+        db.session.add(project)
+        db.session.commit()
+        flash('Project added succesfully')
+        return redirect(url_for('main.dashboard'))
+
+    return render_template('newproject.html', form = form)
 
 @main.route('/dashboard/project/<id>')
 @login_required
@@ -115,11 +118,14 @@ def user(username):
 @main.route('/edit/', methods = ['GET', 'POST'])
 @login_required
 def edit():
-    form = EditForm(g.user.username, g.user.email)
-    user = User.query.filter_by(username = g.user.username).first()
+    form = EditForm(current_user.username, current_user.email)
+    user = User.query.filter_by(username = current_user.username).first()
     if form.validate_on_submit():
-        user.username = form.username.data
-        user.email = form.email.data
+        if user.validate_username(form.username) == ValidationError:
+            flash('Username already taken')
+        else:
+            user.username = form.username.data
+            user.email = form.email.data
         if form.password.data is not None:
             user.set_password(form.password.data)
         db.session.add(user)
@@ -127,8 +133,8 @@ def edit():
         flash('Your changes have been made')
         return redirect(url_for('main.edit'))
     else:
-        form.username.data = g.user.username
-        form.email.data = g.user.email
+        form.username.data = current_user.username
+        form.email.data = current_user.email
 
     return render_template('edit.html', form=form, user=user)
 

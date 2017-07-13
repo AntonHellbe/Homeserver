@@ -2,9 +2,9 @@
 
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block body %}
+{% block page_content %}
 
-	<h4>{{ user.username }}</h4>
+	<h4>{{ current_user.username }}</h4>
 	<form method=post action="/edit/">
 		{{ form.hidden_tag() }}
 		<dl>
@@ -14,7 +14,7 @@
 			{{wtf.form_field(form.confirm)}}
 		</dl>
 		<p><input class = "btn btn-primary" input type=submit value=Update></p>
-		<p><a class="btn btn-danger" href="{{ url_for('main.user', username = g.user.username) }}">Cancel </a></p>
+		<p><a class="btn btn-danger" href="{{ url_for('main.user', username = current_user.username) }}">Cancel </a></p>
 	</form>
 
 
