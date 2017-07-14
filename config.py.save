@@ -1,4 +1,3 @@
-
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -23,7 +22,7 @@ class TestingConfig(Config):
     TESTING = True
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:fabrik22@localhost/arduino_site'
+    SQLALCHEMY_DATABASE_URI = ''
 
 
 config = {

@@ -4,7 +4,7 @@ from FlaskApp.models import User, Project
 
 from flask_script import Manager, Shell
 
-app = create_app('default')
+app = create_app('production')
 manager = Manager(app)
 
 def make_shell_context():
