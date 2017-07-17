@@ -1,4 +1,4 @@
-from . import app, db, lm
+from . import app, db, lm, docs
 from flask import render_template, redirect, flash, url_for, request, g, session
 from flask_login import login_user, logout_user, current_user, login_required
 from .models import User, Project
@@ -88,8 +88,12 @@ def register_page():
 def new_project():
     form = ProjectForm()
     if form.validate_on_submit():
+        filename = docs.save(request.files['document'])
+        url = docs.url(filename)
         project = Project(name = form.name.data, tags = form.tags.data,
-                          description = form.description.data, links = form.links.data, user_id = current_user.id, date = datetime.utcnow())
+                          description = form.description.data, links = form.links.data,
+                           user_id = current_user.id, date = datetime.utcnow(),
+                           image_filename=filename, image_url = url)
         db.session.add(project)
         db.session.commit()
         flash('Project added succesfully')

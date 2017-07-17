@@ -1,7 +1,10 @@
-from wtforms import BooleanField, StringField, PasswordField, ValidationError, TextAreaField, validators
+from wtforms import BooleanField, StringField, PasswordField, FileField, ValidationError, TextAreaField, validators
 from flask_wtf import FlaskForm
 from .models import User, Project
-from wtforms.validators import Required, Length, EqualTo
+from wtforms.validators import Required, Length, EqualTo, regexp
+from flask_wtf.file import FileAllowed
+from FlaskApp import docs
+import re
 
 class LoginForm(FlaskForm):
     username = StringField('Username', [validators.Length(min=4, max=20)])
@@ -55,6 +58,27 @@ class ProjectForm(FlaskForm):
     tags = StringField('Tags', validators=[Length(1, 200)])
     description = TextAreaField('Description', validators=[Required()])
     links = StringField('Links', validators=[Required()])
+    document = FileField(u'Document file', validators=[FileAllowed(docs, 'Documents only')])
+
+    def validate_name(self, field):
+        if Project.query.filter_by(name = field.data):
+            raise ValidationError('Name already taken')
+
+class EditProjectForm(FlaskForm):
+    name = StringField('Name', validators=[Length(1, 50)])
+    tags = StringField('Tags', validators=[Length(1, 200)])
+    description = TextFieldArea('Description', validators=[Required()])
+    links = StringField('Links', validators=[Required()])
+    document = FileField(u'Document file', validators=[FileAllowed(docs, 'Documents only')])
+
+    def validate_name(self, field):
+        if Project.query.filter_by(name = field.data):
+            raise ValidationError('Name already taken')
+    
+
+    # def validate_document(form, field):
+    #     if field.data:
+    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
 
     def validate_name(self, field):
         if Project.query.filter_by(name = field.data).first():

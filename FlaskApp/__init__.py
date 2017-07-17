@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
 from flask_moment import Moment
+from flask_uploads import UploadSet, DOCUMENTS, configure_uploads
 
 
 app = Flask(__name__)
@@ -11,6 +12,7 @@ lm = LoginManager()
 moment = Moment()
 bootstrap = Bootstrap()
 db = SQLAlchemy()
+docs = UploadSet('documents', DOCUMENTS)
 
 main = Blueprint('main', __name__)
 from . import views, errors
@@ -24,6 +26,7 @@ def create_app(config_name):
     db.init_app(app)
     lm.init_app(app)
     moment.init_app(app)
+    configure_uploads(app, docs)
     lm.login_view = 'main.login_page'
 
     from . import main as main_blueprint

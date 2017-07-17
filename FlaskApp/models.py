@@ -17,6 +17,8 @@ class Project(db.Model):
     description = db.Column(db.Text)
     date = db.Column(db.DateTime)
     links = db.Column(db.String(512), nullable = True)
+    image_filename = db.Column(db.String(128), default = None, nullable = True)
+    image_url = db.Column(db.String(128), default = None, nullable = True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     @staticmethod

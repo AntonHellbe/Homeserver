@@ -23,8 +23,12 @@
       <a href="{{ project.links }}">{{ link }}</a></br>
     {% endfor %}
 
-  </div>
 
+  <h4> Related documents </h4>
+  {% if project.image_url %}
+    <a href="{{ project.image_url }}">{{ project.image_filename }}</a>
+  {% endif %}
+  </div>
 
 
 </div>

@@ -17,6 +17,11 @@ class Config:
 
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:////sqlite/test.db'
+    UPLOADS_DEFAULT_DEST = 'C:\\Users\\hellbea\\Desktop\\Homeserver\\Homeserver\\FlaskApp\\static\\documents'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/documents/'
+
+    UPLOADED_DOCUMENTS_DEST = 'C:\\Users\\hellbea\\Desktop\\Homeserver\\Homeserver\\FlaskApp\\static\\documents'
+    UPLOADS_DEFAULT_URL = 'http://localhost:5000/static/documents/'
     DEBUG = True
 
 class TestingConfig(Config):
